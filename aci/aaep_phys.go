@@ -34,12 +34,12 @@ func (c *Client) AttachableAccessEntityProfileDomainPhysAdd(aep, physdom string)
 	return parseJSONError(body)
 }
 
-func (c *Client) AttachableAccessEntityProfileDomainPhysDel(aep, l2dom string) error {
+func (c *Client) AttachableAccessEntityProfileDomainPhysDel(aep, physdom string) error {
 
 	me := "AttachableAccessEntityProfileDomainPhysDel"
 
 	rnE := rnAEP(aep)
-	rn := rnPhysDom(l2dom)
+	rn := rnPhysDom(physdom)
 
 	api := "/api/node/mo/uni/infra/" + rnE + ".json"
 

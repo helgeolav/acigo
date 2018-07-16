@@ -23,11 +23,11 @@ func (c *Client) AttachableAccessEntityProfileEncapAdd(aep, tenant, applicationP
 
 	me := "AttachableAccessEntityProfileEncapAdd"
 	rn := rnAEP(aep)
+	dn := "uni/infra/" + rn + "/gen-default"
 	api := "/api/node/mo/uni/infra/" + rn + "/gen-default.json"
-	dnE := dnAEPG(tenant, applicationProfile, epg)
+	dnE := "uni/" + dnAEPG(tenant, applicationProfile, epg)
 	url := c.getURL(api)
-	j := fmt.Sprintf(`{"infraRsFuncToEpg":{"attributes":{"tDn":"uni/%s","status":"created,modified", "encap": "%s"}}}`,
-		dnE, encap)
+	j := fmt.Sprintf(`{"infraGeneric":{"attributes":{"dn":"%s","name":"default","status":"created,modified"},"children":[{"infraRsFuncToEpg":{"attributes":{"tDn":"%s","status":"created,modified","encap":"%s"},"children":[]}}]}}`, dn, dnE, encap)
 
 	c.debugf("%s: url=%s json=%s", me, url, j)
 
