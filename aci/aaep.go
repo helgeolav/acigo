@@ -35,6 +35,27 @@ func (c *Client) AttachableAccessEntityProfileAdd(aep, descr string) error {
 	return parseJSONError(body)
 }
 
+// AttachableAccessEntityProfileAddInfraGeneric creates the infraGeneric subobject needed to add physical encaps to an AEP
+func (c *Client) AttachableAccessEntityProfileAddInfraGeneric(aep string) error {
+	me := "AttachableAccessEntityProfileAddInfraGeneric"
+	rn := rnAEP(aep)
+	api := "/api/node/mo/uni/infra.json"
+	url := c.getURL(api)
+	j := fmt.Sprintf(`{"infraGeneric":{"attributes":{"dn":"uni/infra/%s/gen-default","name":"default","status":"modified,created"}}}`,
+		rn)
+	c.debugf("%s: url=%s json=%s", me, url, j)
+
+	body, errPost := c.post(url, contentTypeJSON, bytes.NewBufferString(j))
+
+	if errPost != nil {
+		return fmt.Errorf("%s: %v", me, errPost)
+	}
+
+	c.debugf("%s: reply: %s", me, string(body))
+
+	return parseJSONError(body)
+}
+
 // AttachableAccessEntityProfileDel deletes an AAEP.
 func (c *Client) AttachableAccessEntityProfileDel(aep string) error {
 
